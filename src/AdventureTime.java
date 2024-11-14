@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Scanner;
+import java.util.*;
 
 public class AdventureTime {
 
@@ -9,57 +10,100 @@ public class AdventureTime {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-
+        System.out.println(challengeTwo("testInputOneTwo.txt"));
+        //all methods tested
 
     }
 
-    /** TODO 1
-     *
-     * Challenge 1
-     *
-     * @param fileName
-     * @return Answer to Challenge 1
-     * @throws IOException
-     */
-    public static int challengeOne(String fileName) throws IOException {
-        return 0;
+    public static int challengeOne(String filename) throws FileNotFoundException {
+        List<Integer> depths = new ArrayList<>();
+
+        Scanner scanner = new Scanner(new File(filename));
+        while (scanner.hasNextLine()) {
+            depths.add(Integer.parseInt(scanner.nextLine().trim()));
+        }
+        scanner.close();
+
+        int count = 0;
+        for (int i = 1; i < depths.size(); i++) {
+            if (depths.get(i) > depths.get(i - 1)) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
-    /** TODO 2
-     *
-     * Challenge 2
-     *
-     * @param fileName
-     * @return Answer to Challenge 2
-     * @throws FileNotFoundException
-     */
-    public static int challengeTwo(String fileName) throws FileNotFoundException {
-        return 0;
+
+    public static int challengeTwo(String filename) throws FileNotFoundException {
+        List<Integer> depths = new ArrayList<>();
+
+        Scanner scanner = new Scanner(new File(filename));
+        while (scanner.hasNextLine()) {
+            depths.add(Integer.parseInt(scanner.nextLine().trim()));
+        }
+        scanner.close();
+
+        int count = 0;
+        for (int i = 3; i < depths.size(); i++) {
+            int previousSum = depths.get(i - 3) + depths.get(i - 2) + depths.get(i - 1);
+            int currentSum = depths.get(i - 2) + depths.get(i - 1) + depths.get(i); //sw
+            if (currentSum > previousSum) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
-    /** TODO 3
-     *
-     * Challenge 3
-     *
-     * @param fileName
-     * @return Answer to Challenge 3
-     * @throws FileNotFoundException
-     */
-    public static int challengeThree(String fileName) throws FileNotFoundException {
-        return 0;
+
+    public static int challengeThree(String filename) throws FileNotFoundException {
+        int horizontalPosition = 0;
+        int depth = 0;
+
+        Scanner scanner = new Scanner(new File(filename));
+        while (scanner.hasNextLine()) {
+            String[] command = scanner.nextLine().split(" ");
+            String direction = command[0];
+            int value = Integer.parseInt(command[1]);
+
+            if (direction.equals("forward")) {
+                horizontalPosition += value;
+            } else if (direction.equals("down")) {
+                depth += value;
+            } else if (direction.equals("up")) {
+                depth -= value;
+            }
+        }
+        scanner.close();
+        return horizontalPosition * depth;
     }
 
-    /** TODO 4
-     *
-     * Challenge 4
-     *
-     * @param filename
-     * @return Answer to Challenge 4
-     * @throws FileNotFoundException
-     */
     public static int challengeFour(String filename) throws FileNotFoundException {
-        return 0;
+        int horizontalPosition = 0;
+        int depth = 0;
+        int aim = 0;
+
+        Scanner scanner = new Scanner(new File(filename));
+        while (scanner.hasNextLine()) {
+            String[] command = scanner.nextLine().split(" ");
+            String direction = command[0];
+            int value = Integer.parseInt(command[1]);
+
+            if (direction.equals("forward")) {
+                horizontalPosition += value;
+                depth += aim * value;   //change was added here
+            } else if (direction.equals("down")) {
+                aim += value;
+            } else if (direction.equals("up")) {
+                aim -= value;
+            }
+        }
+        scanner.close();
+
+        return horizontalPosition * depth;
     }
+
 
     /** This method will write the values passed as challengeOne, challengeTwo, challengeThree, and challengeFour to a text file.
      * Do not edit this method.
